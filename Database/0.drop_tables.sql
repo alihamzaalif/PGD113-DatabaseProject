@@ -1,0 +1,10 @@
+drop table grading;
+drop table marks;
+drop table grading_weights;
+drop table enroll;
+drop table teaches;
+drop table courses;
+drop table students;
+drop table teaches;
+drop table semester;
+drop table users;
