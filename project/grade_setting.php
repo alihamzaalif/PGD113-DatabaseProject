@@ -15,6 +15,26 @@
     $sql = "select * from grading_weights where teach_id='$teach_id'";
     $result = $conn->query( $sql );
 ?>
+<?php
+    if(isset($_POST["set_grade"])){
+        $teach_id=$_POST["teach_id"];$teach_id=  htmlspecialchars($teach_id);
+        $attendance = $_POST["attendance"]; $attendance = (float) htmlspecialchars($attendance);
+        $ct_marks = $_POST["ct_marks"]; $ct_mark = (float) htmlspecialchars($ct_marks);
+        $assignment = $_POST["assignment"]; $assignment = (float) htmlspecialchars($assignment);
+        $midterm = $_POST["midterm"]; $midterm = (float) htmlspecialchars($midterm);
+        $final = $_POST["final"]; $final = (float) htmlspecialchars($final);
+
+        $sql = "UPDATE grading_weights SET attendance = $attendance, ct_marks = $ct_mark, assignment = $assignment, midterm = $midterm, final = $final WHERE teach_id = '$teach_id'";
+        if ($conn->query($sql) === TRUE) {
+            echo "Record updated successfully";
+            $conn->close();
+            header("Location: teacher_portal.php");
+
+        } else {
+            echo "Error updating record: " . $conn->error . "<br/>";
+        }
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,7 +45,7 @@
 <body>
     <h1>Set grading weights for the courses</h1>
     <h3>Make sure the total sum of the floats are equal to 1.</h3>
-    <form action="set_grade.php" method="POST">
+    <form method="POST">
     <table>
         <tr>
             <th>Attendance</th>
@@ -53,7 +73,7 @@
                 ?>
         </tr>
     </table>
-    <input type="submit">
+    <input type="submit" name="set_grade">
     </form>
     <br/>
     <a href="logout.php">LogOut</a> <a href="teacher_portal.php">Teacher Portal</a>

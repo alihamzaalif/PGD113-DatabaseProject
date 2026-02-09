@@ -15,6 +15,21 @@ include("db.php");
     $result = $conn->query($sql);
 
 ?>
+<?php
+    if(isset($_POST["commit_change_name"])){
+        $user_id = $_POST["user_id"]; $user_id = htmlspecialchars($user_id);
+        $new_name = $_POST["new_name"]; $new_name = htmlspecialchars($new_name); 
+        $sql = "UPDATE users SET name = '$new_name' WHERE user_id = '$user_id'";
+        if($conn->query($sql)){
+            echo "update successful";
+            $conn->close();
+            echo $user_id." ".$new_name;
+            header("Location: admin_panel.php");
+        }else {
+            echo "Error: " . $sql . "<br>" . $conn->error . "<br>";
+        }
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,7 +38,7 @@ include("db.php");
     <title>Change Name</title>
 </head>
 <body>
-    <form action="commit_change_name.php" method="POST">
+    <form method="POST">
         <select name="user_id">
             <?php
             while ($row = $result->fetch_assoc()) {
@@ -32,7 +47,7 @@ include("db.php");
             ?>
         </select>
         <input type="text" name="new_name">
-        <input type="submit">
+        <input type="submit" name="commit_change_name">
     </form>
 </body>
 </html>

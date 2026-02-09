@@ -25,7 +25,7 @@
         echo $student_id?></p><br/>
         <p>Your CGPA is: 
             <?php 
-            $sql = "select avg(gpa) from grading where student_id='$student_id'";
+            $sql = "select avg(gpa) from grading where student_id='$student_id' AND grade IS NOT NULL";
             $result =$conn->query($sql);
             $gpa = (float) 0.0;
             if($result->num_rows > 0){
